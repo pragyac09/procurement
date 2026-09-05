@@ -1,0 +1,177 @@
+.proposals-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.verdict-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legend-text {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.proposals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-text h2 {
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-text .subtitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.proposals-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.proposal-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.proposal-header {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-surface-hover);
+}
+
+.sku-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sku-name {
+  font-weight: 600;
+  font-size: var(--text-base);
+}
+
+.total-cost {
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--accent-base);
+}
+
+.proposal-body {
+  padding: var(--space-4);
+}
+
+.proposal-reason {
+  background-color: var(--accent-bg);
+  color: var(--accent-text);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+  line-height: 1.5;
+}
+
+.proposal-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.detail-label {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.proposal-actions {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-hover);
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  background-color: var(--accent-base);
+  color: white;
+  border: 1px solid var(--accent-base);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-outline.danger {
+  color: var(--status-danger-text);
+  border-color: var(--status-danger-border);
+}
+
+.btn-outline.danger:hover {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger-text);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-8);
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.empty-state h3 {
+  margin: 0 0 var(--space-2) 0;
+  color: var(--text-primary);
+}
+
+.proposal-card.rejected { opacity: 0.5; filter: grayscale(100%); pointer-events: none; border-color: #6b7280; }

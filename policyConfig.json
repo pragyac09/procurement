@@ -1,0 +1,10 @@
+{
+  "budget_cap": 50000,
+  "auto_approve_threshold": 5000,
+  "approved_suppliers": [
+    1,
+    2,
+    3,
+    4
+  ]
+}
