@@ -33,6 +33,36 @@ Everything else — supplier comparison, reorder math, spoilage detection, budge
 - Zero-trust payment re-validation — immediately before a Razorpay order is created, the backend re-fetches live supplier price/stock/lead-time and re-runs the policy check, rejecting (HTTP 403) if anything material changed since the proposal was shown.
 - Real Razorpay test-mode payments: order creation, checkout widget, server-side signature verification, and a distinct failure-handling path that leaves stock/revenue untouched.
 - Storefront purchase flow that depletes real, FEFO-ordered stock and shows expiry/freshness badges.
+- Supplier Revenue tracking scoped strictly to money actually paid out to suppliers on verified restock payments — not retail sales, not a general balance.
+- Live operator UX: a "N action(s) required" counter on Proposed Orders that updates immediately after Approve/Reject/Modify, an "Analyzing catalog for restocking..." loading state during recompute, and a confirmation flow before Reset Demo Data runs.
+
+## Edge cases handled
+
+| Edge case | How it's handled |
+|---|---|
+| Expired stock sitting in inventory | Detected and written off automatically per batch, before the reorder check runs, with its own SPOILAGE audit log entry. |
+| Over-ordering a fast-expiring product | Order quantity capped using a stable 7-day average, separate from the more reactive average used for reorder timing. |
+| One-off demand spike vs. real trend | A reactive average drives reorder point/target stock (catches real spikes fast); a stable average is used only for the perishable cap (a single busy day can't justify over-ordering fresh stock). |
+| Mixed-expiry stock of the same product | Tracked as separate dated batches; sales always draw from the soonest-expiring active batch first (FEFO). |
+| "Expiring soon" being unfair across products | Threshold is 30% of each product's own shelf life (minimum 1 day) instead of one flat number for every product. |
+| Order exceeding the budget cap | Hard BLOCK, no exceptions. |
+| Supplier price/stock changing after a proposal was shown | Re-validated live against the supplier service immediately before payment; rejects with HTTP 403 on any material change. |
+| Razorpay payment failing mid-flow | Handled on a distinct code path — a PAYMENT_FAILED log entry is written and nothing else changes; retrying is always safe since each attempt creates a fresh order. |
+| An abandoned/never-completed checkout | Order creation performs no database writes, so an unfinished checkout leaves proposals, stock, and revenue completely unchanged. |
+| Gemini free-tier quota exhaustion | Every LLM call site is non-blocking or one-time-only: classification runs once and never on reset; narrative notes fail silently with no effect on the decision. |
+| Demo needing a clean, repeatable starting state | Reset Demo Data restores stock, batches, and sales history using dates computed relative to "today," without re-running the one-time AI classification. |
+| Operator overriding the agent's recommendation | Manual reject, manual supplier choice, and manual reorder-point overrides are all supported without breaking the deterministic pipeline underneath. |
+
+## Demo walkthrough (seed scenarios)
+
+Two products are deliberately seeded to make the shelf-life/expiry logic visible immediately on load:
+
+- **Whole Milk 1L (Mother Dairy)** — seeded already expired, so it shows the EXPIRED badge, a spoilage write-off, and an urgent reorder proposal at demo start.
+- **Paneer 200g (Fresh Farms)** — seeded fresh but at low stock, generating a restock proposal whose quantity is visibly capped below naive reorder-point math — demonstrating the shelf-life cap distinctly from the spoilage scenario.
+
+All seed dates are computed relative to the server's current date (not fixed calendar dates), so the demo is correct on whatever day it's actually run, and Reset Demo Data reproduces both scenarios identically every time.
+
+Relevant product schema fields added for this: `category`, `shelf_life_days`, `avg_daily_sales_units`, `last_restocked_date`, `expiry_date`, `classified_by` (`'llm'` or `'fallback'`).
 
 ## Setup
 
@@ -72,3 +102,4 @@ npm run dev                 # starts on port 5173
 - Expiry-date midnight boundary (does a batch expiring "today" count as sellable?) is not yet decided/tested.
 - No confirmed guard against Razorpay webhook redelivery (idempotency).
 - Concurrent Storefront purchases of the same batch are not stress-tested for race conditions.
+- A previously-passing "clean APPROVE" demo scenario (Digestive Biscuits) regressed to ESCALATE during later batch/FEFO work; flagged but not yet root-caused.
