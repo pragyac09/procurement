@@ -103,3 +103,19 @@ npm run dev                 # starts on port 5173
 - No confirmed guard against Razorpay webhook redelivery (idempotency).
 - Concurrent Storefront purchases of the same batch are not stress-tested for race conditions.
 - A previously-passing "clean APPROVE" demo scenario (Digestive Biscuits) regressed to ESCALATE during later batch/FEFO work; flagged but not yet root-caused.
+
+  ## Demo
+
+Short clips of the flows not shown in the pitch video (Razorpay payment gateway wasn't included as its own segment, due to time — captured here instead):
+
+### Razorpay payment flow
+![Razorpay payment flow](docs/demo/razorpay-payment.gif)
+Approve → Razorpay checkout widget → server-side signature verification → payment reflected in Supplier Revenue.
+
+### Budget-cap BLOCK (edge case)
+![Budget cap block](docs/demo/budget-block.gif)
+The Shampoo 200ml scenario — 505 units × ₹120 = ₹60,600 against a ₹50,000 cap — rejected with a clear Verdict Reason, no exceptions.
+
+### Spoilage write-off (edge case)
+![Spoilage write-off](docs/demo/spoilage-writeoff.gif)
+An expired batch is zeroed automatically and logged as its own SPOILAGE entry in the Decision Log, without affecting any other still-valid batch of the same product.
