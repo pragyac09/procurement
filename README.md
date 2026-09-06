@@ -66,6 +66,12 @@ Relevant product schema fields added for this: `category`, `shelf_life_days`, `a
 <img width="896" height="371" alt="image" src="https://github.com/user-attachments/assets/a123e2dd-8de4-4293-9d2e-71223b63acd7" />
 
 
+https://github.com/user-attachments/assets/9296d737-f074-4769-9b53-a21746f792a9
+
+<img width="835" height="394" alt="image" src="https://github.com/user-attachments/assets/858b1ac5-a088-4bca-917f-dc25c5cfcb87" />
+
+
+
 ## Setup
 
 Each service has its own dependencies and `.env` file.
