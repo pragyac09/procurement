@@ -63,6 +63,8 @@ Two products are deliberately seeded to make the shelf-life/expiry logic visible
 All seed dates are computed relative to the server's current date (not fixed calendar dates), so the demo is correct on whatever day it's actually run, and Reset Demo Data reproduces both scenarios identically every time.
 
 Relevant product schema fields added for this: `category`, `shelf_life_days`, `avg_daily_sales_units`, `last_restocked_date`, `expiry_date`, `classified_by` (`'llm'` or `'fallback'`).
+<img width="896" height="371" alt="image" src="https://github.com/user-attachments/assets/a123e2dd-8de4-4293-9d2e-71223b63acd7" />
+
 
 ## Setup
 
