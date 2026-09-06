@@ -5,6 +5,7 @@
 A procurement agent for a quick-commerce dark store. It watches inventory in real time, proposes restock orders to suppliers, runs every proposal through a deterministic Fit / Policy / Risk / Decision check, and — once approved — pays the supplier through Razorpay in test mode.
 
 The core idea: **the LLM proposes, deterministic code disposes.** Every money-moving decision (which supplier, how much to order, approve/escalate/block, whether a payment executes) is plain, explainable code — never an unsupervised call by a language model.
+
 https://github.com/user-attachments/assets/9296d737-f074-4769-9b53-a21746f792a9
 
 ## Architecture
